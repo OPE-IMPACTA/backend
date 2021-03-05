@@ -16,7 +16,7 @@ const database = require('./kernel/database');
 global.SystemLoad = loadsys;
 
 // Settings
-app.use(cors({origin: process.env.ENDPOINT_APP_ORIGIN, exposedHeaders: ['Authorization']}));
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
