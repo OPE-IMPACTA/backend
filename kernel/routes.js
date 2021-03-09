@@ -15,6 +15,14 @@ let routes = [
     {
         base: '/auth',
         file: 'auth'
+    },
+    {
+        base: '/help',
+        file: 'help'
+    },
+    {
+        base: '/tests',
+        file: 'test-end2end'
     }
 ];
 
