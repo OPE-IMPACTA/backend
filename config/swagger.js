@@ -20,14 +20,6 @@ module.exports = {
             {
                 "name": "User",
                 "description": "CRUD de usuários"
-            },
-            {
-                "name": "Tests",
-                "description": "CRUD e execução dos testes E2E"
-            },
-            {
-                "name": "Help",
-                "description": "Tratamento das mensagens de notificação"
             }
         ],
         "schemes": [
