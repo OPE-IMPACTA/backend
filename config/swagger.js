@@ -44,6 +44,36 @@ module.exports = {
                     }
                 }
             },
+            "requestTask": {
+                "required": [
+                    "projectId",
+                    "userId",
+                    "description",
+                    "startDate",
+                    "endDate",
+                    "hours",
+                ],
+                "properties": {
+                    "projectId": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "startDate": {
+                        "type": "string"
+                    },
+                    "endDate": {
+                        "type": "string"
+                    },
+                    "hours": {
+                        "type": "number"
+                    },
+                }
+            },
             "requestProjects": {
                 "required": [
                     "name",
