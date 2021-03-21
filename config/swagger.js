@@ -44,6 +44,20 @@ module.exports = {
                     }
                 }
             },
+            "requestProjects": {
+                "required": [
+                    "name",
+                    "office"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "office": {
+                        "type": "string",
+                    }
+                }
+            },
             "requestLogin": {
                 "required": [
                     "email",

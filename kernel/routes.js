@@ -19,7 +19,11 @@ let routes = [
     {
         base: '/clients',
         file: 'clients'
-    }
+    },
+    {
+        base: '/projects',
+        file: 'projects'
+    } 
 ];
 
 module.exports = {
