@@ -15,6 +15,10 @@ let routes = [
     {
         base: '/auth',
         file: 'auth'
+    },
+    {
+        base: '/clients',
+        file: 'clients'
     }
 ];
 

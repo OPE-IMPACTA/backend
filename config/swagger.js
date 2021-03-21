@@ -20,12 +20,30 @@ module.exports = {
             {
                 "name": "User",
                 "description": "CRUD de usuários"
+            },
+            {
+                "name": "Clients",
+                "description": "CRUD de clientes"
             }
         ],
         "schemes": [
             "http"
         ],
         "parameters": {
+            "requestClients": {
+                "required": [
+                    "name",
+                    "office"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "office": {
+                        "type": "string",
+                    }
+                }
+            },
             "requestLogin": {
                 "required": [
                     "email",
