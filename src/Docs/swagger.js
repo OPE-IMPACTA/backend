@@ -2,7 +2,8 @@ const {
     loginParameters,
     userParameters,
     clientParameters,
-    projectParameters
+    projectParameters,
+    taskParameters
 } = require('./parameters')
 
 
@@ -14,7 +15,8 @@ const {
     loginResponses,
     usersResponses,
     clientsResponses,
-    projectsResponses
+    projectsResponses,
+    tasksResponses
 } = require('./responses')
 
 module.exports = {
@@ -41,6 +43,12 @@ module.exports = {
             }, {
                 "name": "Client",
                 "description": "CRUD de clientes"
+            }, {
+                "name": "Project",
+                "description": "CRUD de projetos"
+            }, {
+                "name": "Task",
+                "description": "CRUD de tarefas"
             }
         ],
         "schemes": [
@@ -54,42 +62,14 @@ module.exports = {
             loginResponses,
             usersResponses,
             clientsResponses,
-            projectsResponses
+            projectsResponses,
+            tasksResponses
         },
         "parameters": {
             userParameters,
             clientParameters,
             projectParameters,
-            "requestTask": {
-                "required": [
-                    "projectId",
-                    "userId",
-                    "description",
-                    "startDate",
-                    "endDate",
-                    "hours",
-                ],
-                "properties": {
-                    "projectId": {
-                        "type": "stringmodule"
-                    },
-                    "userId": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "startDate": {
-                        "type": "string"
-                    },
-                    "endDate": {
-                        "type": "string"
-                    },
-                    "hours": {
-                        "type": "number"
-                    },
-                }
-            },
+            taskParameters,
             loginParameters,
         },
         "components": {

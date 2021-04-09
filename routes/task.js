@@ -1,112 +1,187 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const acl = require('express-acl');
+const router = new Router();
 
 const TaskController = SystemLoad.controller('TaskController');
 const TaskRequest = SystemLoad.request('TaskRequest');
+const AuthenticationMiddleware = SystemLoad.middleware('AuthenticationMiddleware');
 
 /**
  * @swagger
- * /task:
- *    post:
- *      tags:
- *      - Task
- *      description: Criar uma atividade 
- *      requestBody: 
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/parameters/requestTask'
- *      responses:
- *        '200':
- *          description: Accept
- *        '401':
- *          description: Unauthorized
- *        '404':
- *          description: Not Found
- *        '500':
- *          description: Server Error
- */
-router.post('/', TaskRequest.create, function (request, response, next) {
-    TaskController.create(request, response);
-});
-
-/**
- * @swagger
- * /task:
+ * /tasks:
  *    get:
  *      tags:
  *      - Task
- *      description: Listar as atividades 
+ *      description: Lista de tarefas
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/tasksResponses'
+ *        '400':
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
  *        '401':
  *          description: Unauthorized
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
  *        '500':
  *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
+ *      security:
+ *        - bearerAuth: []
  */
- router.get('/', function (request, response, next) {
-    TaskController.getAll(request, response);
+router.get('/', AuthenticationMiddleware.bearer, function (request, response, next) {
+    TaskController.index(request, response);
 });
 
 /**
  * @swagger
- * /task/{id}:
- *    put:
+ * /tasks:
+ *    post:
  *      tags:
  *      - Task
- *      description: Alterar uma atividade pelo ID
- *      requestBody: 
+ *      description: Cria uma nova tarefa
+ *      requestBody:
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/parameters/requestTask'
+ *              $ref: '#/parameters/taskParameters'
+ *      responses:
+ *        '200':
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/tasksResponses'
+ *        '400':
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
+ *        '401':
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
+ *        '500':
+ *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
+ *      security:
+ *        - bearerAuth: []
+ */
+router.post('/', AuthenticationMiddleware.bearer, TaskRequest.checkIdUser, TaskRequest.checkIdProject, TaskRequest.create, function (request, response, next) {
+    TaskController.store(request, response);
+});
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *    put:
+ *      tags:
+ *      - Task
+ *      description: Altera uma tarefa
  *      parameters:
  *        - in: path
  *          name: id
  *          type: string
  *          required: true
+ *          default: "ID do cliente"
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/parameters/taskParameters'
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/tasksResponses'
+ *        '400':
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
  *        '401':
  *          description: Unauthorized
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
  *        '500':
  *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
+ *      security:
+ *        - bearerAuth: []
  */
- router.put('/:id', TaskRequest.update, function (request, response, next) {
+router.put('/:id', AuthenticationMiddleware.bearer, TaskRequest.checkIdTask, TaskRequest.checkIdUser, TaskRequest.checkIdProject, TaskRequest.update, function (request, response, next) {
     TaskController.update(request, response);
 });
 
 /**
  * @swagger
- * /task/{id}:
+ * /clients/{id}:
  *    delete:
  *      tags:
  *      - Task
- *      description: Deletar uma task pelo ID
+ *      description: Deleta a tarefa pelo ID
  *      parameters:
  *        - in: path
  *          name: id
  *          type: string
  *          required: true
+ *          default: "ID do cliente"
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
+ *        '400':
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
  *        '401':
  *          description: Unauthorized
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
  *        '500':
  *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
+ *      security:
+ *        - bearerAuth: []
  */
- router.delete('/:id', function (request, response, next) {
+router.delete('/:id', AuthenticationMiddleware.bearer, TaskRequest.checkIdTask, function (request, response, next) {
     TaskController.delete(request, response);
 });
 
 module.exports = router;
-

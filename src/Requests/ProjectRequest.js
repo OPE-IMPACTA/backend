@@ -1,4 +1,6 @@
 const ProjectRepository = SystemLoad.repository('ProjectRepository');
+const UserRepository = SystemLoad.repository('UserRepository');
+const ClientRepository = SystemLoad.repository('ClientRepository');
 
 const { check, validationResult } = require('express-validator');
 
@@ -78,7 +80,7 @@ exports.checkIdProject = [
 exports.checkIdUser = [
     check('user_id').custom(async (value) => {
         try {
-            const result = await ProjectRepository.findById(value)
+            const result = await UserRepository.findById(value)
             if (!result) {
                 return Promise.reject('ID do user não encontrado');
             }
@@ -99,7 +101,7 @@ exports.checkIdUser = [
 exports.checkIdClient = [
     check('client_id').custom(async (value) => {
         try {
-            const result = await ProjectRepository.findById(value)
+            const result = await ClientRepository.findById(value)
             if (!result) {
                 return Promise.reject('ID do cliente não encontrado');
             }

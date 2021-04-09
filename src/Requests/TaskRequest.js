@@ -1,10 +1,14 @@
+const ProjectRepository = SystemLoad.repository('ProjectRepository');
+const UserRepository = SystemLoad.repository('UserRepository');
+const TaskRepository = SystemLoad.repository('TaskRepository');
+
 const { check, validationResult } = require('express-validator');
 
 exports.create = [
-    check('projectId')
+    check('project_id')
         .notEmpty()
         .withMessage('O projeto não pode estar vazio!'),
-    check('userId')
+    check('user_id')
         .notEmpty()
         .withMessage('O campo de funcionario responsável não pode ser vazio!'),
     check('startDate')
@@ -32,11 +36,11 @@ exports.create = [
 ];
 
 exports.update = [
-    check('projectId')
+    check('project_id')
         .optional()
         .notEmpty()
         .withMessage('O projeto não pode estar vazio!'),
-    check('userId')
+    check('user_id')
         .optional()
         .notEmpty()
         .withMessage('O campo de funcionario responsável não pode ser vazio!'),
@@ -62,6 +66,69 @@ exports.update = [
 
         if (!errors.isEmpty()) {
             return response.status(400).json({ errors: errors.array() });
+        }
+
+        return next();
+    }
+];
+
+exports.checkIdTask = [
+    check('user_id').custom(async (value) => {
+        try {
+            const result = await TaskRepository.findById(value)
+            if (!result) {
+                return Promise.reject('ID do user não encontrado');
+            }
+        } catch (err) {
+            return Promise.reject('ID está no formato inválido!');
+        }
+    }),
+    (request, response, next) => {
+        const errors = validationResult(request);
+        if (!errors.isEmpty()) {
+            return response.status(400).json({errors: errors.array()});
+        }
+
+        return next();
+    }
+];
+
+exports.checkIdUser = [
+    check('user_id').custom(async (value) => {
+        try {
+            const result = await UserRepository.findById(value)
+            if (!result) {
+                return Promise.reject('ID do user não encontrado');
+            }
+        } catch (err) {
+            return Promise.reject('ID está no formato inválido!');
+        }
+    }),
+    (request, response, next) => {
+        const errors = validationResult(request);
+        if (!errors.isEmpty()) {
+            return response.status(400).json({errors: errors.array()});
+        }
+
+        return next();
+    }
+];
+
+exports.checkIdProject = [
+    check('client_id').custom(async (value) => {
+        try {
+            const result = await ProjectRepository.findById(value)
+            if (!result) {
+                return Promise.reject('ID do cliente não encontrado');
+            }
+        } catch (err) {
+            return Promise.reject('ID está no formato inválido!');
+        }
+    }),
+    (request, response, next) => {
+        const errors = validationResult(request);
+        if (!errors.isEmpty()) {
+            return response.status(400).json({errors: errors.array()});
         }
 
         return next();

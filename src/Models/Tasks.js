@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
-    projectId: String, // ObjectId
-    userId: String, // ObjectId
+    projectId: mongoose.Schema.ObjectId,
+    userId: mongoose.Schema.ObjectId,
     description: String,
     startDate: Date,
     endDate: Date,
