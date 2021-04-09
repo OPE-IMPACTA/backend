@@ -1,6 +1,7 @@
 const { 
     loginParameters,
-    userParameters
+    userParameters,
+    clientParameters
 } = require('./parameters')
 
 
@@ -11,7 +12,7 @@ const {
     error,
     loginResponses,
     usersResponses,
-    userResponses
+    clientsResponses
 } = require('./responses')
 
 module.exports = {
@@ -36,7 +37,7 @@ module.exports = {
                 "name": "User",
                 "description": "CRUD de usuários"
             }, {
-                "name": "Clients",
+                "name": "Client",
                 "description": "CRUD de clientes"
             }
         ],
@@ -50,10 +51,11 @@ module.exports = {
             error,
             loginResponses,
             usersResponses,
-            userResponses
+            clientsResponses
         },
         "parameters": {
             userParameters,
+            clientParameters,
             "requestClients": {
                 "required": [
                     "name",

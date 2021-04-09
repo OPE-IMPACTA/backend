@@ -35,6 +35,7 @@ exports.update = [
         check('email')
         .optional()
         .notEmpty()
+        .isEmail()
         .withMessage('Campo name não pode ser vazio!'),
     check('password')
         .optional()

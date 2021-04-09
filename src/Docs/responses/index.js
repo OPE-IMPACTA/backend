@@ -5,5 +5,5 @@ module.exports = {
     error: require('./error'),
     loginResponses: require('./login'),
     usersResponses: require('./users'),
-    userResponses: require('./user')
+    clientsResponses: require('./clients')
 }

@@ -2,24 +2,24 @@ const { Router } = require('express');
 const acl = require('express-acl');
 const router = new Router();
 
-const UserController = SystemLoad.controller('UserController');
-const UserRequest = SystemLoad.request('UserRequest');
+const ClientController = SystemLoad.controller('ClientController');
+const ClientRequest = SystemLoad.request('ClientRequest');
 const AuthenticationMiddleware = SystemLoad.middleware('AuthenticationMiddleware');
 
 /**
  * @swagger
- * /users:
+ * /clients:
  *    get:
  *      tags:
- *      - User
- *      description: Lista de usuários
+ *      - Client
+ *      description: Lista de clientes
  *      responses:
  *        '200':
  *          description: Ok
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/responses/usersResponses'
+ *                $ref: '#/responses/clientsResponses'
  *        '400':
  *          description: Bad Request
  *          content:
@@ -41,29 +41,29 @@ const AuthenticationMiddleware = SystemLoad.middleware('AuthenticationMiddleware
  *      security:
  *        - bearerAuth: []
  */
-router.get('/', AuthenticationMiddleware.bearer, acl.authorize, function (request, response, next) {
-    UserController.index(request, response);
+router.get('/', AuthenticationMiddleware.bearer, function (request, response, next) {
+    ClientController.index(request, response);
 });
 
 /**
  * @swagger
- * /users:
+ * /clients:
  *    post:
  *      tags:
- *      - User
- *      description: Cria um novo usuário
+ *      - Client
+ *      description: Cria um novo cliente
  *      requestBody:
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/parameters/userParameters'
+ *              $ref: '#/parameters/clientParameters'
  *      responses:
  *        '200':
  *          description: Ok
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/responses/usersResponses'
+ *                $ref: '#/responses/clientsResponses'
  *        '400':
  *          description: Bad Request
  *          content:
@@ -85,35 +85,35 @@ router.get('/', AuthenticationMiddleware.bearer, acl.authorize, function (reques
  *      security:
  *        - bearerAuth: []
  */
-router.post('/', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.create, UserRequest.checkEmailInUse, function (request, response, next) {
-    UserController.store(request, response);
+router.post('/', AuthenticationMiddleware.bearer, ClientRequest.create, function (request, response, next) {
+    ClientController.store(request, response);
 });
 
 /**
  * @swagger
- * /users/{id}:
+ * /clients/{id}:
  *    put:
  *      tags:
- *      - User
- *      description: Altera um usuário
+ *      - Client
+ *      description: Altera um cliente
  *      parameters:
  *        - in: path
  *          name: id
  *          type: string
  *          required: true
- *          default: "ID do usuário"
+ *          default: "ID do cliente"
  *      requestBody:
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/parameters/userParameters'
+ *              $ref: '#/parameters/clientParameters'
  *      responses:
  *        '200':
  *          description: Ok
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/responses/userResponses'
+ *                $ref: '#/responses/clientsResponses'
  *        '400':
  *          description: Bad Request
  *          content:
@@ -135,23 +135,23 @@ router.post('/', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.cre
  *      security:
  *        - bearerAuth: []
  */
-router.put('/:id', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.checkIdUser, UserRequest.checkEmailInUse, UserRequest.update, function (request, response, next) {
-    UserController.update(request, response);
+router.put('/:id', AuthenticationMiddleware.bearer, ClientRequest.checkIdClient, ClientRequest.update, function (request, response, next) {
+    ClientController.update(request, response);
 });
 
 /**
  * @swagger
- * /users/{id}:
+ * /clients/{id}:
  *    delete:
  *      tags:
- *      - User
- *      description: Deleta o usuário pelo ID
+ *      - Client
+ *      description: Deleta o cliente pelo ID
  *      parameters:
  *        - in: path
  *          name: id
  *          type: string
  *          required: true
- *          default: "ID do usuário"
+ *          default: "ID do cliente"
  *      responses:
  *        '200':
  *          description: Ok
@@ -180,8 +180,8 @@ router.put('/:id', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.c
  *      security:
  *        - bearerAuth: []
  */
-router.delete('/:id', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.checkIdUser, function (request, response, next) {
-    UserController.delete(request, response);
+router.delete('/:id', AuthenticationMiddleware.bearer, ClientRequest.checkIdClient, function (request, response, next) {
+    ClientController.delete(request, response);
 });
 
 module.exports = router;
