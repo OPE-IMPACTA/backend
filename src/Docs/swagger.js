@@ -102,22 +102,6 @@ module.exports = {
                     "scheme": "bearer"
                 }
             }
-        },
-        "definitions": {
-            "responseLogin": {
-                "properties": {
-                    "_id": {
-                        "type": "string",
-                        "uniqueItems": true
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    }
-                }
-            }
         }
     },
     apis: ["./routes/*.js"]
