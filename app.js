@@ -23,7 +23,7 @@ app.use(express.json());
 routes.load(app);
 database.load();
 
-const swaggerOptions = require('./config/swagger');
+const swaggerOptions = require('./src/Docs/swagger');
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 

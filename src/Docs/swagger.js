@@ -1,10 +1,22 @@
+const { 
+    loginParameters
+} = require('./parameters')
+
+
+const {
+    badRequest,
+    serverError,
+    unauthorized,
+    loginResponses
+} = require('./responses')
+
 module.exports = {
     swaggerDefinition: {
         "openapi": "3.0.3",
         "info": {
             "version": "1.0.0",
-            "title": "Project Super E2E",
-            "description": "My Project Application API",
+            "title": "Projeto da OPE GAP",
+            "description": "OPE GAP API",
             "license": {
                 "name": "MIT",
                 "url": "https://opensource.org/licenses/MIT"
@@ -16,12 +28,10 @@ module.exports = {
             {
                 "name": "Auth",
                 "description": "Autenticação do sistema"
-            },
-            {
+            }, {
                 "name": "User",
                 "description": "CRUD de usuários"
-            },
-            {
+            }, {
                 "name": "Clients",
                 "description": "CRUD de clientes"
             }
@@ -29,6 +39,12 @@ module.exports = {
         "schemes": [
             "http"
         ],
+        "responses": {
+            badRequest,
+            serverError,
+            unauthorized,
+            loginResponses
+        },
         "parameters": {
             "requestClients": {
                 "required": [
@@ -55,7 +71,7 @@ module.exports = {
                 ],
                 "properties": {
                     "projectId": {
-                        "type": "string"
+                        "type": "stringmodule"
                     },
                     "userId": {
                         "type": "string"
@@ -88,22 +104,7 @@ module.exports = {
                     }
                 }
             },
-            "requestLogin": {
-                "required": [
-                    "email",
-                    "password"
-                ],
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "default": "master@master.com"
-                    },
-                    "password": {
-                        "type": "string",
-                        "default": "12345678"
-                    }
-                }
-            },
+            loginParameters,
             "requestUpdatesHelp": {
                 "required": [
                     "items"
