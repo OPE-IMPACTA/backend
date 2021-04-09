@@ -22,7 +22,7 @@ let routes = [
     },
     {
         base: '/projects',
-        file: 'projects'
+        file: 'project'
     },
     {
         base: '/task',
