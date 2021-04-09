@@ -1,6 +1,7 @@
 const BaseController = SystemLoad.controller('BaseController');
 const GenerateTokenService = SystemLoad.service('JWT/GenerateTokenService');
 const LogoutService = SystemLoad.service('JWT/LogoutService');
+const HttpHelper = SystemLoad.helper('HttpHelper');
 
 class AuthController extends BaseController {
 
@@ -11,14 +12,12 @@ class AuthController extends BaseController {
     async login(request, response) {
         try {
             const token = GenerateTokenService.create(request.user)
-
             const { _id, name, email } = request.user
-
             response.set('Authorization', token);
 
-            this.responder(response, { _id, name, email },'', 200)
+            HttpHelper.response(response, 200, { _id, name, email });
         } catch (error) {
-            this.responder(response, { erro: 'Houve um erro, tente mais' }, '', 500)
+            HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
         }
     }
 
@@ -26,10 +25,10 @@ class AuthController extends BaseController {
         try {
             const {authorization} = request.headers;
             await LogoutService.addToken(authorization);
-
-            this.responder(response, {},'',204)
+            
+            HttpHelper.response(response, 204, '');
         } catch (error) {
-            this.responder(response, { erro: 'Houve um erro, tente mais' }, '', 500)
+            HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
         }
     }
 }

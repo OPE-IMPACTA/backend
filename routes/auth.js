@@ -35,7 +35,7 @@ const AuthRequest = SystemLoad.request('AuthRequest');
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/responses/serverError'
+ *                $ref: '#/responses/error'
  *        '500':
  *          description: Server Error
  *          content:
@@ -68,7 +68,7 @@ router.post('/login', AuthRequest.checkEmailPassword, AuthenticationMiddleware.l
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/responses/serverError'
+ *                $ref: '#/responses/error'
  *        '500':
  *          description: Server Error
  *          content:

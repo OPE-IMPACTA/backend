@@ -31,6 +31,10 @@ class AbstractRepository {
     async countByFilter(field, value) {
         return this.model.countDocuments({field: value});
     }
+
+    async aggregate(data) {
+        return this.model.aggregate(data);
+    }
 }
 
 module.exports = AbstractRepository;

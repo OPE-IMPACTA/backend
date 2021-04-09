@@ -1,3 +1,4 @@
 module.exports = {
-    loginParameters: require('./login')
+    loginParameters: require('./login'),
+    userParameters: require('./user')
 }

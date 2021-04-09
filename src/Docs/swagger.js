@@ -1,5 +1,6 @@
 const { 
-    loginParameters
+    loginParameters,
+    userParameters
 } = require('./parameters')
 
 
@@ -7,7 +8,10 @@ const {
     badRequest,
     serverError,
     unauthorized,
-    loginResponses
+    error,
+    loginResponses,
+    usersResponses,
+    userResponses
 } = require('./responses')
 
 module.exports = {
@@ -43,9 +47,13 @@ module.exports = {
             badRequest,
             serverError,
             unauthorized,
-            loginResponses
+            error,
+            loginResponses,
+            usersResponses,
+            userResponses
         },
         "parameters": {
+            userParameters,
             "requestClients": {
                 "required": [
                     "name",

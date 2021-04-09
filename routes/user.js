@@ -15,43 +15,34 @@ const AuthenticationMiddleware = SystemLoad.middleware('AuthenticationMiddleware
  *      description: Lista de usuários
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/usersResponses'
  *        '400':
  *          description: Bad Request
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
+ *        '401':
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
+ *        '500':
+ *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
  *      security:
  *        - bearerAuth: []
  */
 router.get('/', AuthenticationMiddleware.bearer, acl.authorize, function (request, response, next) {
     UserController.index(request, response);
-});
-
-/**
- * @swagger
- * /users/search/{name}:
- *    get:
- *      tags:
- *      - User
- *      description: Busca o usuário pelo nome
- *      parameters:
- *        - in: path
- *          name: name
- *          type: string
- *          required: true
- *          default: "Nome do usuário"
- *      responses:
- *        '200':
- *          description: Accept
- *        '400':
- *          description: Bad Request
- *        '404':
- *          description: Not Found
- *      security:
- *        - bearerAuth: []
- */
-router.get('/search/:name', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.checkNameLength, function (request, response, next) {
-    UserController.search(request, response);
 });
 
 /**
@@ -65,44 +56,86 @@ router.get('/search/:name', AuthenticationMiddleware.bearer, acl.authorize, User
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/parameters/requestCreatesUser'
+ *              $ref: '#/parameters/userParameters'
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/userResponses'
  *        '400':
  *          description: Bad Request
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
+ *        '401':
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
+ *        '500':
+ *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
  *      security:
  *        - bearerAuth: []
  */
-router.post('/', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.create, function (request, response, next) {
+router.post('/', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.create, UserRequest.checkEmailInUse, function (request, response, next) {
     UserController.store(request, response);
 });
 
 /**
  * @swagger
- * /users:
+ * /users/{id}:
  *    put:
  *      tags:
  *      - User
  *      description: Altera um usuário
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          type: string
+ *          required: true
+ *          default: "ID do usuário"
  *      requestBody:
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/parameters/requestUpdatesUser'
+ *              $ref: '#/parameters/userParameters'
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/userResponses'
  *        '400':
  *          description: Bad Request
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
+ *        '401':
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
+ *        '500':
+ *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
  *      security:
  *        - bearerAuth: []
  */
-router.put('/', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.update, function (request, response, next) {
+router.put('/:id', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.checkIdUser, UserRequest.checkEmailInUse, UserRequest.update, function (request, response, next) {
     UserController.update(request, response);
 });
 
@@ -121,15 +154,33 @@ router.put('/', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.upda
  *          default: "ID do usuário"
  *      responses:
  *        '200':
- *          description: Accept
+ *          description: Ok
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
  *        '400':
  *          description: Bad Request
- *        '404':
- *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/badRequest'
+ *        '401':
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/unauthorized'
+ *        '500':
+ *          description: Server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/responses/serverError'
  *      security:
  *        - bearerAuth: []
  */
-router.delete('/:id', AuthenticationMiddleware.bearer, acl.authorize, function (request, response, next) {
+router.delete('/:id', AuthenticationMiddleware.bearer, acl.authorize, UserRequest.checkIdUser, function (request, response, next) {
     UserController.delete(request, response);
 });
 
