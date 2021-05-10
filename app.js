@@ -6,6 +6,8 @@ const logger = require('morgan');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerOptions = require('./src/Docs/swagger');
+
 
 // Kernel
 const loadsys = require('./kernel/loadsys');
@@ -16,14 +18,14 @@ const database = require('./kernel/database');
 global.SystemLoad = loadsys;
 
 // Settings
-app.use(cors());
+app.use(cors({origin: process.env.ENDPOINT_APP_ORIGIN, exposedHeaders: ['Authorization']}));
+// app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
 routes.load(app);
 database.load();
 
-const swaggerOptions = require('./src/Docs/swagger');
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
