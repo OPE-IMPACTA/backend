@@ -12,7 +12,7 @@ exports.update = [
     check('client_id')
         .notEmpty()
         .optional()
-        .withMessage('O campo department não pode ser vazio!'),
+        .withMessage('O campo client_id não pode ser vazio!'),
     check('description')
         .notEmpty()
         .optional()
@@ -38,7 +38,7 @@ exports.create = [
     .withMessage('O user_id não pode estar vazio!'),
 check('client_id')
     .notEmpty()
-    .withMessage('O campo department não pode ser vazio!'),
+    .withMessage('O campo client_id não pode ser vazio!'),
 check('description')
     .notEmpty()
     .withMessage('O description não pode ser vazio!'),

@@ -12,10 +12,11 @@ class AuthController extends BaseController {
     async login(request, response) {
         try {
             const token = GenerateTokenService.create(request.user)
-            const { _id, name, email } = request.user
+
+            const { _id, name, email, group_id  } = request.user
             response.set('Authorization', token);
 
-            HttpHelper.response(response, 200, { _id, name, email });
+            HttpHelper.response(response, 200, { _id, name, email, group_id });
         } catch (error) {
             HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
         }

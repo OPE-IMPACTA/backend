@@ -73,11 +73,11 @@ exports.update = [
 ];
 
 exports.checkIdTask = [
-    check('user_id').custom(async (value) => {
+    check('id').custom(async (value) => {
         try {
             const result = await TaskRepository.findById(value)
             if (!result) {
-                return Promise.reject('ID do user não encontrado');
+                return Promise.reject('ID da tarefa não encontrado');
             }
         } catch (err) {
             return Promise.reject('ID está no formato inválido!');
@@ -96,6 +96,7 @@ exports.checkIdTask = [
 exports.checkIdUser = [
     check('user_id').custom(async (value) => {
         try {
+            console.log('teste')
             const result = await UserRepository.findById(value)
             if (!result) {
                 return Promise.reject('ID do user não encontrado');
@@ -115,11 +116,11 @@ exports.checkIdUser = [
 ];
 
 exports.checkIdProject = [
-    check('client_id').custom(async (value) => {
+    check('project_id').custom(async (value) => {
         try {
             const result = await ProjectRepository.findById(value)
             if (!result) {
-                return Promise.reject('ID do cliente não encontrado');
+                return Promise.reject('ID do projeto não foi encontrado');
             }
         } catch (err) {
             return Promise.reject('ID está no formato inválido!');

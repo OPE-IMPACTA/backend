@@ -25,7 +25,7 @@ let routes = [
         file: 'project'
     },
     {
-        base: '/task',
+        base: '/tasks',
         file: 'task'
     } 
 ];

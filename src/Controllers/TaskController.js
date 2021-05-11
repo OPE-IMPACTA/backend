@@ -14,17 +14,50 @@ class TaskController extends BaseController {
     async index(request, response) {
         try {
             const queryBuilder = new QueryBuilder()
+                .lookup({
+                    from: 'users',
+                    foreignField: '_id',
+                    localField: 'user_id',
+                    as: 'users'
+                })
+                .unwind({
+                    path: '$users'
+                })
+                .lookup({
+                    from: 'projects',
+                    foreignField: '_id',
+                    localField: 'project_id',
+                    as: 'projects'
+                })
+                .unwind({
+                    path: '$projects'
+                })
+                .lookup({
+                    from: 'clients',
+                    foreignField: '_id',
+                    localField: 'projects.client_id',
+                    as: 'clients'
+                })
+                .unwind({
+                    path: '$clients'
+                })
                 .project({
+                    project: '$projects.description',
+                    client: '$clients.name',
                     project_id: 1,
+                    user: '$users.name',
                     user_id: 1,
+                    client: '$clients.name',
                     description: 1,
                     startDate: 1,
                     endDate: 1,
                     hours: 1
                 })
                 .build()
-            
+
             const result = await TaskRepository.aggregate(queryBuilder)
+
+            console.log(result)
             HttpHelper.response(response, 200, result);
         } catch (error) {
             HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
@@ -33,11 +66,12 @@ class TaskController extends BaseController {
 
     async store(request, response) {
         try {
+            console.log(request.body)
             const result = await TaskRepository.create(request.body)
             const { _id, cnpj, company, department, name, email, phone } = result
 
             HttpHelper.response(response, 200, { _id, cnpj, company, department, name, email, phone }, 'Task criado com sucesso');
-        } catch(error) {
+        } catch (error) {
             HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
         }
     }
@@ -46,7 +80,7 @@ class TaskController extends BaseController {
         try {
             const { id } = request.params;
             await TaskRepository.updateById(id, request.body);
-            
+
             const queryBuilder = new QueryBuilder()
                 .match({
                     _id: mongoose.Types.ObjectId(id)
@@ -60,10 +94,10 @@ class TaskController extends BaseController {
                     phone: 1
                 })
                 .build()
-            
+
             const result = await TaskRepository.aggregate(queryBuilder)
             HttpHelper.response(response, 200, result, 'Task alterado com sucesso.');
-        } catch(error) {
+        } catch (error) {
             HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
         }
     }
@@ -73,7 +107,7 @@ class TaskController extends BaseController {
             const { id } = request.params;
             await TaskRepository.delete(id);
             HttpHelper.response(response, 200, [], 'Task deletado com sucesso.');
-        } catch(error) {
+        } catch (error) {
             HttpHelper.response(response, 500, [], 'Houve um erro, tente mais tarde!');
         }
     }
