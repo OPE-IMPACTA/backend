@@ -2,3 +2,5 @@ node_modules
 dbdata
 package-lock.json
 .idea/
+.env
+.vercel
