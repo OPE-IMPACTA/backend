@@ -1,4 +1,6 @@
 const uri = process.env.MONGODB_PRODUCTION || `mongodb://${process.env.HOST_MONGODB}:${process.env.PORT_MONGODB}/${process.env.DATABASE_MONGODB}`
+const user = process.env.MONGODB_USER_PRODUCTION || process.env.MONGO_INITDB_ROOT_USERNAME
+const password = process.env.MONGODB_PASSWORD_PRODUCTION || process.env.MONGO_INITDB_ROOT_PASSWORD
 
 module.exports = {
     uri: uri,
@@ -12,7 +14,7 @@ module.exports = {
         auth: {
             authSource: 'admin'
         },
-        user: process.env.MONGO_INITDB_ROOT_USERNAME,
-        pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
+        user: user,
+        pass: password,
     }
 };
