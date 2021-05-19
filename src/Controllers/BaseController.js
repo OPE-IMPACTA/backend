@@ -1,9 +1,7 @@
-const Redis = SystemLoad.kernel('redis');
 
 class BaseController {
 
     constructor(prefix) {
-        this.rds = new Redis(prefix);
     }
 
     responder(responser, data, message = '', code) {
