@@ -45,6 +45,10 @@ router.get('/', AuthenticationMiddleware.bearer, function (request, response, ne
     ProjectController.index(request, response);
 });
 
+router.get('/summary', AuthenticationMiddleware.bearer, function (request, response, next) {
+    ProjectController.summary(request, response);
+});
+
 /**
  * @swagger
  * /projects:

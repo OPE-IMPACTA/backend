@@ -60,7 +60,7 @@ exports.update = [
         .optional()
         .notEmpty()
         .withMessage('O campo de descrição não pode ser vazio!'),
-        
+
     (request, response, next) => {
         const errors = validationResult(request);
 
@@ -96,8 +96,9 @@ exports.checkIdTask = [
 exports.checkIdUser = [
     check('user_id').custom(async (value) => {
         try {
-            console.log('teste')
+            console.log('teste', value)
             const result = await UserRepository.findById(value)
+            console.log(result)
             if (!result) {
                 return Promise.reject('ID do user não encontrado');
             }

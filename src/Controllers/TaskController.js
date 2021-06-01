@@ -42,8 +42,7 @@ class TaskController extends BaseController {
                     path: '$clients'
                 })
                 .project({
-                    project: '$projects.description',
-                    client: '$clients.name',
+                    project: '$projects.name',
                     project_id: 1,
                     user: '$users.name',
                     user_id: 1,
